@@ -53,15 +53,9 @@ class Filesystem
         $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $this->filesystem->disk($media->disk)
-            ->getDriver()->writeStream(
-                $destination,
-                $storage->getDriver()->readStream($file->getKey()),
-                $media->getDiskDriverName() === 'local'
-                    ? [] : $this->getRemoteHeadersForFile(
-                        $file->getKey(),
-                        $media->getCustomHeaders(),
-                        $storage->mimeType($file->getKey())
-                    )
+                         ->getDriver()->copy(
+                $file->getKey(),
+                $destination
             );
     }
 
